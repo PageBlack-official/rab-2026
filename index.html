@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#fbfbfd">
+<title>RAB</title>
+<link rel="preconnect" href="https://rsms.me/">
+<link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+<style>
+:root{--bg:#fbfbfd;--card:#fff;--ink:#1d1d1f;--mute:#6e6e73;--line:#d2d2d7;--blue:#0071e3;--r:18px}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;font-feature-settings:"cv11","ss01";background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;letter-spacing:-.017em}
+header{max-width:1200px;margin:0 auto;padding:max(56px,env(safe-area-inset-top)) 22px 28px}
+.eyebrow{font-size:14px;font-weight:600;color:var(--mute);letter-spacing:0}
+h1{font-size:clamp(44px,8.4vw,90px);font-weight:700;letter-spacing:-.05em;line-height:1;margin:6px 0 18px}
+.lead{font-size:clamp(17px,2vw,22px);line-height:1.36;letter-spacing:-.022em;color:var(--mute);max-width:720px;font-weight:500}
+.lead b{color:var(--ink);font-weight:600}
+nav{position:sticky;top:0;z-index:5;background:rgba(251,251,253,.8);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid rgba(0,0,0,.06)}
+.chips{max-width:1200px;margin:0 auto;padding:12px 22px;display:flex;gap:8px;overflow-x:auto;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;border:0;background:#e8e8ed;color:var(--ink);font:inherit;font-size:13px;font-weight:500;padding:8px 16px;border-radius:980px;cursor:pointer;transition:background .2s}
+.chip[aria-pressed=true]{background:var(--ink);color:#fff}
+main{max-width:1200px;margin:0 auto;padding:24px 22px 80px;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
+.card{background:var(--card);border-radius:var(--r);overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.04);cursor:zoom-in;transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s;display:block;width:100%;border:0;text-align:left;font:inherit;color:inherit;display:flex;flex-direction:column;justify-content:flex-start;align-items:stretch}
+.card:hover{transform:scale(1.012);box-shadow:0 10px 32px rgba(0,0,0,.09)}
+.card img{display:block;width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;background:#eee}
+.meta{padding:14px 18px 18px}
+.room{font-size:11px;font-weight:600;color:var(--mute);text-transform:uppercase;letter-spacing:.04em}
+.ttl{font-size:18px;font-weight:600;letter-spacing:-.025em;margin:3px 0 4px;line-height:1.25}
+.price{font-size:14px;font-weight:500;color:var(--blue)}
+.price.none{color:var(--mute)}
+footer{max-width:1200px;margin:0 auto;padding:0 22px 60px;color:var(--mute);font-size:13px;line-height:1.5}
+/* lightbox */
+#lb{position:fixed;inset:0;z-index:20;background:#000;display:none;flex-direction:column}
+#lb.on{display:flex}
+#track{flex:1;display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;overscroll-behavior:contain}
+#track::-webkit-scrollbar{display:none}
+.slide{flex:none;width:100vw;height:100%;scroll-snap-align:center;scroll-snap-stop:always;display:flex;align-items:center;justify-content:center;padding:max(16px,env(safe-area-inset-top)) 16px 16px;overflow:hidden;position:relative;padding-bottom:calc(var(--caph,0px) + 8px)}
+.slide img{max-width:100%;max-height:100%;object-fit:contain;border-radius:10px;user-select:none;-webkit-user-select:none;-webkit-user-drag:none;cursor:zoom-in;transform-origin:center center;will-change:transform;-webkit-touch-callout:none}
+#lb.zoomed .slide img{cursor:grab;border-radius:0}
+#lb.zoomed.drag .slide img{cursor:grabbing}
+#lb.zoomed #track{overflow-x:hidden}
+#cap{transition:opacity .25s}
+#lb.zoomed #cap{opacity:0;pointer-events:none}
+#lb.zoomed ~ #prev,#lb.zoomed ~ #next{opacity:0;pointer-events:none}
+#cap{position:absolute;left:0;right:0;bottom:0;color:#f5f5f7;padding:16px max(22px,calc((100vw - 900px)/2)) max(20px,env(safe-area-inset-bottom));pointer-events:none}
+#cap *{pointer-events:auto}
+#cap .room{color:#a1a1a6}
+#cap .ttl{font-size:20px;color:#fff}
+#cap .price{color:#2997ff;font-size:15px}
+#cap p{font-size:14px;line-height:1.45;color:#d2d2d7;margin-top:6px}
+#cap small{display:block;font-size:12.5px;color:#86868b;margin-top:6px}
+.ui{position:fixed;z-index:21;border:0;background:rgba(255,255,255,.14);color:#fff;width:44px;height:44px;border-radius:50%;font-size:20px;cursor:pointer;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);display:none;align-items:center;justify-content:center}
+#lb.on ~ .ui{display:flex}
+#x{top:max(14px,env(safe-area-inset-top));right:14px}
+#zb{top:max(14px,env(safe-area-inset-top));right:68px}
+#zb svg{width:20px;height:20px}
+#count{top:max(14px,env(safe-area-inset-top));left:14px;width:auto;padding:0 14px;border-radius:980px;font-size:14px;font-weight:500;cursor:default}
+#prev{left:14px;top:50%;transform:translateY(-50%)}
+#next{right:14px;top:50%;transform:translateY(-50%)}
+@media (hover:none){#prev,#next{display:none!important}}
+@media (max-width:600px){header{padding-top:max(36px,env(safe-area-inset-top))}main{grid-template-columns:1fr 1fr;gap:10px;padding:14px 10px 60px}.card{border-radius:14px;min-width:0}.meta{padding:10px 12px 12px}.ttl{font-size:14px}.price{font-size:12.5px}.room{font-size:10px}#cap p{font-size:13.5px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="eyebrow">Privat galleri</div>
+  <h1>RAB</h1>
+  <p class="lead">55 bilder, rom for rom. Under hvert bilde står det hva som er på det og hva det kan gå for brukt. Prisene er sammenlignet med lignende annonser på finn.no 11. november, og det som kan selges, er verdt <b>28 400–50 800 kr</b>.</p>
+</header>
+<nav><div class="chips" id="chips"></div></nav>
+<main id="grid"></main>
+<footer>Står det «usikkert», var merke eller modell ikke lesbart på bildet.</footer>
+<div id="lb" role="dialog" aria-modal="true" aria-label="Bildevisning"><div id="track"></div><div id="cap"></div></div>
+<button class="ui" id="count" tabindex="-1"></button>
+<button class="ui" id="zb" aria-label="Zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/><path id="zplus" d="M10.5 7.5v6M7.5 10.5h6"/></svg></button>
+<button class="ui" id="x" aria-label="Lukk">✕</button>
+<button class="ui" id="prev" aria-label="Forrige">‹</button>
+<button class="ui" id="next" aria-label="Neste">›</button>
+<script>
+const D={"items": [{"n": 1, "rom": "Stue", "t": "Danelectro elgitar", "note": "Danelectro-hode med «coke bottle»-form og klassisk logo, står i gitarstativ. Ved siden av står flere gitarhoder, mahognimøbel, blått glass og tinnfigurer.", "pris": "2 500–4 000 kr", "kilde": "Danelectro '59/'56-modeller på finn: 2 999–4 000 kr", "w": 1536, "h": 2048}, {"n": 2, "rom": "Stue", "t": "Elgitar, Tele-form, svart/hvit", "note": "Svart kropp med hvit slagplate og hvit kant, rosentre-gripebrett, én pickup ved stolen, krom kontrollplate. Ser ut til å høre til Danelectro-gitaren i bilde 1.", "pris": "inngår i bilde 1", "kilde": "Samme gitar som bilde 1, usikkert", "w": 2048, "h": 1536}, {"n": 3, "rom": "Stue", "t": "Morgan 12-strengs gitar", "note": "Svart Morgan 12-strenger, hodet nært. Synlig støv og slitasje på hodet, strengene sitter på.", "pris": "1 500–2 500 kr", "kilde": "Morgan 12-strengere på finn: 400–3 000 kr, svart elektroakustisk 2 100 kr", "w": 1536, "h": 2048}, {"n": 4, "rom": "Stue", "t": "Harmonium fra Norsk Orgel- og Harmoniumfabrikk", "note": "Trøorgel i mahogni fra Norsk Orgel- og Harmoniumfabrikk i Snertingdal. Kassa har rette linjer, flat topp og tynne bein, og den formen peker mot 1950- til 1970-tallet. Fabrikken laget harmonier fra 1919 til 1976, da nummer 5456 ble det siste. Serienummeret inne i kassa gir året. Avisutklipp og to gamle fotografier er festet på fronten.", "pris": "0–1 000 kr", "kilde": "Samme merke på finn: 500 kr og gis bort; harmonier generelt gis bort til 3 000 kr. Historikk: lokalhistoriewiki.no", "w": 2048, "h": 1536}, {"n": 5, "rom": "Stue", "t": "Harmonium, registre og tangenter", "note": "Merket Norsk Orgel- og Harmoniumfabrikk. Registre som Bourdon 8', Dulciana 8', Dolce. Tangenter i god stand, noe gulning.", "pris": "inngår i bilde 4", "kilde": "Samme instrument som bilde 4", "w": 2048, "h": 1536}, {"n": 6, "rom": "Stue", "t": "Pynt på harmoniumet", "note": "Blå glassvaser, ridderfigur i metall, tinnbeger, perlehund, CD-cover og bilde. Vindu mot byen bak.", "pris": "200–600 kr", "kilde": "Tinnkrus og pyntegjenstander på finn: 180–450 kr", "w": 2048, "h": 1536}, {"n": 7, "rom": "Studio", "t": "Zoom R16 + NUX MG-300", "note": "Zoom R16 opptaker/mikser/lydkort og NUX MG-300 gitarprosessor, koblet opp, med noen CD-er ved siden av.", "pris": "4 000–4 600 kr", "kilde": "Zoom R16: 3 800–3 900 kr; NUX MG-300: 800–900 kr", "w": 1536, "h": 2048}, {"n": 8, "rom": "Studio", "t": "Mikrofon med popfilter", "note": "Stor kondensatormikrofon i stativ med popfilter og hodetelefoner. Maleri av kvinne med gult hår på veggen.", "pris": "500–1 500 kr", "kilde": "Kondensatormikrofoner på finn: 2 700–4 000 kr for kjente merker; merket er ikke lesbart, usikkert", "w": 1536, "h": 2048}, {"n": 9, "rom": "Studio", "t": "Opptaksbord", "note": "Arbeidsbord med Zoom R16, gitarprosessor, popfilter, hodetelefoner, bordvifte og lysestake.", "pris": "se bilde 7 og 8", "kilde": "Utstyret er priset i bilde 7–8", "w": 2048, "h": 1536}, {"n": 10, "rom": "Stue", "t": "Bord ovenfra", "note": "Bord med skåler, smykker, hodetelefoner, vifte og diverse småting.", "pris": "—", "kilde": "Ikke vurdert, blandet småting", "w": 1536, "h": 2048}, {"n": 11, "rom": "Stue", "t": "Uskarpt bilde", "note": "Bevegelsesuskarpt: glassplatespillerlokk og tinnfigurer. Bør tas på nytt.", "pris": "—", "kilde": "Ikke vurdert", "w": 2048, "h": 1536}, {"n": 12, "rom": "Stue", "t": "Argon Audio platespiller", "note": "Platespiller i mørkt tre med akryllokk, merket Argon Audio. Tinnfigurer og messingklokker rundt.", "pris": "1 800–2 800 kr", "kilde": "Argon Audio TT-mk2/TT-3 brukt på finn: 2 300–3 600 kr", "w": 1536, "h": 2048}, {"n": 13, "rom": "Kjøkken", "t": "Kjøkken", "note": "Kjøkken med hvite fronter og furu benkeplate, bilder over overskapene, plakat på veggen.", "pris": "—", "kilde": "Fast innredning", "w": 1536, "h": 2048}, {"n": 14, "rom": "Kjøkken", "t": "Roland EM-20 keyboard", "note": "Roland EM-20 Creative Keyboard med notestativ, på furubord. Papirer ved siden av.", "pris": "300–500 kr", "kilde": "Roland EM-20 på finn: 400 kr", "w": 2048, "h": 1536}, {"n": 15, "rom": "Kjøkken", "t": "Kjøkken med keyboard", "note": "Kjøkkenet sett fra spisebordet. Fat på veggen, plakater og Roland-keyboardet.", "pris": "—", "kilde": "Se bilde 14", "w": 1536, "h": 2048}, {"n": 16, "rom": "Kjøkken", "t": "Komfyr og spiseplass", "note": "Komfyr, kaffetrakter, spisestoler i mørkt tre og Samsung-kjøleskapet i bakgrunnen.", "pris": "se bilde 17", "kilde": "Kjøleskapet er priset i bilde 17", "w": 1536, "h": 2048}, {"n": 17, "rom": "Kjøkken", "t": "Samsung-kjøleskap i stål", "note": "Samsung kombiskap i stål, kjøpt i mars 2026 for ca. 8 800 kr. Ved siden av står hylla med permer, DVD-samling og vinstativ.", "pris": "4 500–6 000 kr", "kilde": "Kjøpt for ca. 8 800 kr i mars 2026; brukt Samsung kombiskap i stål på finn: 6 000 kr, eldre 2 200–3 500 kr. DVD-ene kommer i tillegg (200–600 kr)", "w": 1536, "h": 2048}, {"n": 18, "rom": "Kjøkken", "t": "Plakatcollage", "note": "Rammet collage med konsertplakater (Under Brua-festivalen 2009, julekonserten 2009, Gullkornet) og avisutklipp.", "pris": "affeksjonsverdi", "kilde": "Ingen markedspris", "w": 1536, "h": 2048}, {"n": 19, "rom": "Kjøkken", "t": "Kjøkkenbenk", "note": "Komfyr, kniver, vaffeljern, brødrister og kjeler.", "pris": "—", "kilde": "Ikke vurdert", "w": 1536, "h": 2048}, {"n": 20, "rom": "Stue", "t": "Platespiller eller forsterker", "note": "Mørk børstet front, stabel med LP-plater og blader oppå. Undersiden av en platespiller eller et anlegg, usikkert.", "pris": "—", "kilde": "For lite synlig til å prise", "w": 1536, "h": 2048}, {"n": 21, "rom": "Stue", "t": "Stuen", "note": "Oversikt over stua med sofa, glassbord, gulvlampe med frynser, malerier og hyller.", "pris": "—", "kilde": "Oversiktsbilde", "w": 2048, "h": 1536}, {"n": 22, "rom": "Stue", "t": "Thomson 65\" TV og hvit kiste", "note": "Thomson 65\" TV med en hvitmalt kiste med panel foran, og bildet er uskarpt i kantene.", "pris": "3 000–5 500 kr", "kilde": "Brukt Thomson 65\" på finn: 3 000 kr, nye og demo 5 600–9 990 kr. Antikke kister: 500–3 500 kr", "w": 2048, "h": 1536}, {"n": 23, "rom": "Stue", "t": "Alto PA-høyttaler på stativ", "note": "Aktiv PA-høyttaler (blå Alto-logo) på stativ, bokhyller bak. Litt uskarpt.", "pris": "1 000–1 500 kr", "kilde": "Alto Professional brukt på finn: ca. 1 500 kr per stk", "w": 1536, "h": 2048}, {"n": 24, "rom": "Stue", "t": "Hylle med høyttaler og figurer", "note": "Hvit Argon Audio-lignende høyttaler, engel, madonnafigur, vase, klokke fra Carl Jørgen. Norges kongesagaer i hyllen.", "pris": "1 500–3 000 kr", "kilde": "Argon Audio FORTE brukt/outlet: 6 000–7 900 kr par [GJETTET modell]", "w": 2048, "h": 1536}, {"n": 25, "rom": "Stue", "t": "Bokhylle med pynt", "note": "Bokhylle i furu med samleverk, tinn- og keramikkvaser, maleri i blått.", "pris": "300–1 400 kr", "kilde": "Furu bokhylle: gis bort til 1 400 kr; kongesagaer 80–150 kr", "w": 2048, "h": 1536}, {"n": 26, "rom": "Stue", "t": "CD-tårn", "note": "To CD-tårn og hylle, flere hundre CD-er.", "pris": "400–1 000 kr", "kilde": "CD-samlinger på finn: 400–1 000 kr", "w": 1536, "h": 2048}, {"n": 27, "rom": "Stue", "t": "Riper i taket", "note": "Taket nært: tydelige riper og merker i overflaten.", "pris": "—", "kilde": "Dokumentasjon av skade", "w": 1536, "h": 2048}, {"n": 28, "rom": "Stue", "t": "Riper i taket, ny vinkel", "note": "Samme område som bilde 27, annen vinkel.", "pris": "—", "kilde": "Dokumentasjon av skade", "w": 1536, "h": 2048}, {"n": 29, "rom": "Stue", "t": "Bokhylle og PA", "note": "Høy bokhylle med samleverk, Alto-høyttaler på stativ, perleforheng.", "pris": "se bilde 23 og 25", "kilde": "Priset der", "w": 1536, "h": 2048}, {"n": 30, "rom": "Gang", "t": "Bord med tegneseriefigurer", "note": "Svart bord dekorert med figurer, avis, liten hvit luftrenser, rammet bilde og plakat.", "pris": "100–300 kr", "kilde": "Småbord: lav bruktverdi, usikkert", "w": 1536, "h": 2048}, {"n": 31, "rom": "Gang", "t": "Mosaikk-kunstverk", "note": "Stort hjemmelaget bilde av flasker/korker, mosaikkmotiv med vindu.", "pris": "affeksjonsverdi", "kilde": "Ingen markedspris", "w": 1536, "h": 2048}, {"n": 32, "rom": "Gang", "t": "Barokkskap", "note": "Mørkt skap med dreide søyler, pynt og en motorsykkelmodell oppå.", "pris": "500–1 500 kr", "kilde": "Eldre skap på finn varierer mye, usikkert", "w": 1536, "h": 2048}, {"n": 33, "rom": "Gang", "t": "Hylle med kunst", "note": "Hylle, bilder, plakatcollage og gitarforsterker (oransje).", "pris": "200–800 kr", "kilde": "Små gitarforsterkere: 500–2 500 kr", "w": 1536, "h": 2048}, {"n": 34, "rom": "Gang", "t": "Anarkisymbol og malerier", "note": "Malerier, hylle med vinyl/bøker og plakat med anarkisymbol.", "pris": "affeksjonsverdi", "kilde": "Ingen markedspris", "w": 1536, "h": 2048}, {"n": 35, "rom": "Gang", "t": "Collage på dør", "note": "Stor collage av utklipp fra blader på dør/plate.", "pris": "—", "kilde": "Ingen markedspris", "w": 1536, "h": 2048}, {"n": 36, "rom": "Gang", "t": "Akvarium med skap", "note": "Tomt akvarium på skap, collage over.", "pris": "800–1 800 kr", "kilde": "Akvarium med skap på finn: 1 000–2 190 kr", "w": 1536, "h": 2048}, {"n": 37, "rom": "Kontor", "t": "Hylle og Olivetti", "note": "Hylle med permer og blader, Olivetti regnemaskin, discokule, faksmaskin.", "pris": "200–600 kr", "kilde": "Olivetti regnemaskiner: 175–1 400 kr", "w": 1536, "h": 2048}, {"n": 38, "rom": "Soverom", "t": "Gitarveggen", "note": "Fem gitarer på veggen over sofaen, malt vegg og kosedyr. Gitarene er gått gjennom i bilde 39.", "pris": "se bilde 39", "kilde": "Priset i bilde 39", "w": 2048, "h": 1536}, {"n": 39, "rom": "Soverom", "t": "Fem gitarer", "note": "Fra venstre: 1) Klassisk gitar i lys gran med slisset hode, logoen øverst på hodet er ikke lesbar. 2) Liten brun salong-/parlorgitar med svart slisset hode og bart-formet stol, slitt lakk. 3) Ibanez elektroakustisk med cutaway, rød sunburst og svart kant, gulltone-mekanikk og bladintarsia på hodet, Idol-startnummer 5303 på kroppen; formen ligner AEL-serien, usikkert. 4) Rød superstrat med HSH-mikrofoner, slagplate i perlemor og tremolo, hodet står på skrå og merket er ikke lesbart. 5) Svart Strat-kopi med tre singlecoils og hvit plate, mye slitasje på lakken, merket er ikke lesbart. Ett nærbilde rett forfra av hvert hode gir sikkert merke og modell.", "pris": "3 700–6 500 kr", "kilde": "Ibanez AEL40SE brukt: 1 000–2 000 kr, Ibanez jumbo elektroakustisk 3 500 kr; Strat-kopier 700–2 000 kr; klassisk 500–1 000 kr; parlor 500–1 000 kr", "w": 2048, "h": 1536}, {"n": 40, "rom": "Soverom", "t": "Soverom/stue", "note": "Akvarium, gulvlampe med frynser, store malerier.", "pris": "300–600 kr", "kilde": "Retro stålampe med frynser: 550–1 800 kr", "w": 2048, "h": 1536}, {"n": 41, "rom": "Bad", "t": "Bad", "note": "Toalett, vask, vaskemaskin og tørkestativ.", "pris": "—", "kilde": "Fast innredning", "w": 2048, "h": 1536}, {"n": 42, "rom": "Bad", "t": "Riper i veggen", "note": "Riper i baderomsveggen, tørkestativ.", "pris": "—", "kilde": "Dokumentasjon av skade", "w": 1536, "h": 2048}, {"n": 43, "rom": "Bad", "t": "Vaskemaskin og belter", "note": "Vaskemaskin, belter på stang, lampe med frynser.", "pris": "—", "kilde": "Ikke vurdert", "w": 1536, "h": 2048}, {"n": 44, "rom": "Bad", "t": "Belter med nagler", "note": "Skinnbelter med nagler, Blacksod-belte og rødt belte.", "pris": "100–300 kr", "kilde": "Brukte belter: lav verdi, usikkert", "w": 1536, "h": 2048}, {"n": 45, "rom": "Soverom", "t": "Soverom", "note": "Seng, store malerier, rammede fotografier.", "pris": "—", "kilde": "Oversiktsbilde", "w": 2048, "h": 1536}, {"n": 46, "rom": "Balkong", "t": "Modellbygg på balkong", "note": "Stort modellbygg av gjenbruksmaterialer langs innglasset balkong.", "pris": "affeksjonsverdi", "kilde": "Ingen markedspris", "w": 1536, "h": 2048}, {"n": 47, "rom": "Balkong", "t": "Modellbygg, detalj", "note": "Tårn av bokser, korker og ruller.", "pris": "—", "kilde": "Se bilde 46", "w": 1536, "h": 2048}, {"n": 48, "rom": "Balkong", "t": "Modellbygg, detalj fra siden", "note": "Samme som bilde 47, nesten identisk.", "pris": "—", "kilde": "Duplikat", "w": 1536, "h": 2048}, {"n": 49, "rom": "Balkong", "t": "Modellbygg ovenfra", "note": "Takflater, vegger av kork og gjenbruk.", "pris": "—", "kilde": "Se bilde 46", "w": 1536, "h": 2048}, {"n": 50, "rom": "Balkong", "t": "Figurer og kurver", "note": "Masker, figurer, kunstige planter og plastkurver.", "pris": "—", "kilde": "Ikke vurdert", "w": 2048, "h": 1536}, {"n": 51, "rom": "Balkong", "t": "Bokser og skjell", "note": "Ananasbokser stablet, store skjell.", "pris": "—", "kilde": "Ikke vurdert", "w": 1536, "h": 2048}, {"n": 52, "rom": "Gang", "t": "Dekorert bord", "note": "Samme bord som bilde 30, sett forfra med kasse under.", "pris": "se bilde 30", "kilde": "Priset der", "w": 1536, "h": 2048}, {"n": 53, "rom": "Gang", "t": "Dekorert bord fra siden", "note": "Samme bord, annen vinkel.", "pris": "—", "kilde": "Duplikat", "w": 1536, "h": 2048}, {"n": 54, "rom": "Kjøkken", "t": "Kjøkken og stue", "note": "Oversikt med keyboard, spisebord og lenestol.", "pris": "—", "kilde": "Oversiktsbilde", "w": 2048, "h": 1536}, {"n": 55, "rom": "Stue", "t": "Chatoll og musikkutstyr", "note": "Chatoll i tre, Philips CD-radio, liten gitarforsterker, leketøysgitar, brettspill.", "pris": "1 000–2 500 kr", "kilde": "Chatoll på finn 7 500–9 000 for fine; Philips CD-radio 500–1 700", "w": 1536, "h": 2048}], "lo": 28400, "hi": 50800};
+const pad=n=>String(n).padStart(2,'0');
+const grid=document.getElementById('grid'),chips=document.getElementById('chips'),lb=document.getElementById('lb'),track=document.getElementById('track'),cap=document.getElementById('cap'),cnt=document.getElementById('count');
+let list=D.items,cur=0,filter='Alle';
+const rooms=['Alle',...[...new Set(D.items.map(i=>i.rom))]];
+const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const priced=p=>/kr/.test(p);
+function renderChips(){chips.innerHTML=rooms.map(r=>`<button class="chip" aria-pressed="${r===filter}">${r}</button>`).join('');chips.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{filter=b.textContent;renderChips();renderGrid()})}
+function renderGrid(){list=filter==='Alle'?D.items:D.items.filter(i=>i.rom===filter);
+ grid.innerHTML=list.map((i,k)=>`<button class="card" data-k="${k}"><img src="t/${pad(i.n)}.webp" width="${i.w}" height="${i.h}" loading="${k<6?'eager':'lazy'}" decoding="async" alt="${esc(i.t)}"><div class="meta"><div class="room">${esc(i.rom)} · ${i.n}</div><div class="ttl">${esc(i.t)}</div><div class="price ${priced(i.pris)?'':'none'}">${esc(i.pris)}</div></div></button>`).join('');
+ grid.querySelectorAll('.card').forEach(c=>c.onclick=()=>open(+c.dataset.k));}
+function buildTrack(){track.innerHTML=list.map((i,k)=>`<div class="slide" data-k="${k}"><img data-src="i/${pad(i.n)}.webp" src="t/${pad(i.n)}.webp" alt="${esc(i.t)}"></div>`).join('');
+ track.querySelectorAll('.slide').forEach(s=>s.addEventListener('click',e=>{if(e.target===s&&!Z.on())close()}));}
+function load(k){[k-1,k,k+1].forEach(j=>{const im=track.children[j]?.querySelector('img');if(im&&im.dataset.src){const f=new Image();f.onload=()=>{im.src=im.dataset.src;delete im.dataset.src};f.src=im.dataset.src}})}
+function setCap(k){resetZoom(false);const i=list[k];cur=k;cnt.textContent=`${k+1} / ${list.length}`;
+ cap.innerHTML=`<div class="room">${esc(i.rom)} · bilde ${i.n}</div><div class="ttl">${esc(i.t)}</div><div class="price">${esc(i.pris)}</div><p>${esc(i.note)}</p><small>Grunnlag: ${esc(i.kilde)}</small>`;lb.style.setProperty('--caph',cap.offsetHeight+'px');load(k)}
+function open(k){buildTrack();lb.classList.add('on');document.body.style.overflow='hidden';track.scrollLeft=k*track.clientWidth;setCap(k);history.pushState({lb:1},'')}
+function close(){if(!lb.classList.contains('on'))return;resetZoom(false);lb.classList.remove('on');document.body.style.overflow='';const c=grid.children[cur];c&&c.scrollIntoView({block:'center'});if(history.state&&history.state.lb)history.back()}
+function go(d){const k=Math.max(0,Math.min(list.length-1,cur+d));track.scrollTo({left:k*track.clientWidth,behavior:'smooth'})}
+let t;track.addEventListener('scroll',()=>{clearTimeout(t);t=setTimeout(()=>{const k=Math.round(track.scrollLeft/track.clientWidth);if(k!==cur)setCap(k)},60)},{passive:true});
+window.addEventListener('popstate',()=>{if(lb.classList.contains('on')){lb.classList.remove('on');document.body.style.overflow=''}});
+window.addEventListener('resize',()=>{if(lb.classList.contains('on'))track.scrollLeft=cur*track.clientWidth});
+document.getElementById('x').onclick=close;document.getElementById('prev').onclick=()=>go(-1);document.getElementById('next').onclick=()=>go(1);
+document.addEventListener('keydown',e=>{if(!lb.classList.contains('on'))return;if(e.key==='Escape'){Z.on()?resetZoom(true):close();return}if(e.key==='+'||e.key==='z')toggleZoom();if(e.key==='-')resetZoom(true);if(Z.on())return;if(e.key==='ArrowRight')go(1);if(e.key==='ArrowLeft')go(-1)});
+
+/* ---------- zoom ---------- */
+const MAX=5,STEP=2.6;
+const Z={s:1,x:0,y:0,on(){return this.s>1.01}};
+const img=()=>track.children[cur]&&track.children[cur].querySelector('img');
+function apply(anim){const im=img();if(!im)return;im.style.transition=anim?'transform .32s cubic-bezier(.2,.8,.2,1)':'none';im.style.transform=Z.on()?`translate3d(${Z.x}px,${Z.y}px,0) scale(${Z.s})`:'';lb.classList.toggle('zoomed',Z.on());document.getElementById('zplus').style.display=Z.on()?'none':''}
+function bounds(){const im=img(),sl=im.parentElement;const w=im.offsetWidth*Z.s,h=im.offsetHeight*Z.s;return{mx:Math.max(0,(w-sl.clientWidth)/2),my:Math.max(0,(h-sl.clientHeight)/2)}}
+function clamp(){const im=img(),sl=im.parentElement.getBoundingClientRect(),c=center();const ax=(lo,hi,size,cp,t)=>size<=hi-lo?(lo+hi)/2-cp:Math.max(hi-cp-size/2,Math.min(lo-cp+size/2,t));Z.x=ax(sl.left,sl.right,im.offsetWidth*Z.s,c.x,Z.x);Z.y=ax(sl.top,sl.bottom,im.offsetHeight*Z.s,c.y,Z.y)}
+function center(){const im=img(),r=im.parentElement.getBoundingClientRect();return{x:r.left+im.offsetLeft+im.offsetWidth/2,y:r.top+im.offsetTop+im.offsetHeight/2}}
+function zoomTo(s,px,py,anim){const im=img();if(!im)return;s=Math.max(1,Math.min(MAX,s));const c=center(),cx=c.x,cy=c.y;
+ if(px==null){px=cx+Z.x;py=cy+Z.y}
+ const ix=(px-cx-Z.x)/Z.s,iy=(py-cy-Z.y)/Z.s;Z.x=px-cx-s*ix;Z.y=py-cy-s*iy;Z.s=s;if(s<=1.01){Z.s=1;Z.x=0;Z.y=0}else clamp();apply(anim)}
+function resetZoom(anim){if(!Z.on()&&!Z.x&&!Z.y)return;Z.s=1;Z.x=0;Z.y=0;apply(anim)}
+function toggleZoom(px,py){Z.on()?resetZoom(true):zoomTo(STEP,px,py,true)}
+document.getElementById('zb').onclick=()=>toggleZoom();
+/* mouse: click = zoom, drag = pan */
+let drag=null,lastTouch=0;
+track.addEventListener('mousedown',e=>{if(Date.now()-lastTouch<900||e.target.tagName!=='IMG')return;e.preventDefault();drag={x:e.clientX,y:e.clientY,ox:Z.x,oy:Z.y,moved:false}});
+window.addEventListener('mousemove',e=>{if(!drag)return;const dx=e.clientX-drag.x,dy=e.clientY-drag.y;if(Math.abs(dx)+Math.abs(dy)>4)drag.moved=true;if(Z.on()&&drag.moved){lb.classList.add('drag');Z.x=drag.ox+dx;Z.y=drag.oy+dy;clamp();apply(false)}});
+window.addEventListener('mouseup',e=>{if(!drag)return;const d=drag;drag=null;lb.classList.remove('drag');if(!d.moved&&e.target.tagName==='IMG')toggleZoom(e.clientX,e.clientY)});
+track.addEventListener('wheel',e=>{if(!lb.classList.contains('on'))return;if(e.ctrlKey){e.preventDefault();zoomTo(Z.s*Math.exp(-e.deltaY*0.01),e.clientX,e.clientY,false)}else if(Z.on()){e.preventDefault();Z.x-=e.deltaX;Z.y-=e.deltaY;clamp();apply(false)}},{passive:false});
+/* touch: pinch, pan when zoomed, tap = zoom */
+let T=null;const dist=(a,b)=>Math.hypot(a.clientX-b.clientX,a.clientY-b.clientY);
+track.addEventListener('touchstart',e=>{lastTouch=Date.now();if(e.target.tagName!=='IMG')return;const t=e.touches;
+ if(t.length===2){e.preventDefault();T={mode:'pinch',d:dist(t[0],t[1]),s:Z.s,mx:(t[0].clientX+t[1].clientX)/2,my:(t[0].clientY+t[1].clientY)/2,ox:Z.x,oy:Z.y,moved:true}}
+ else if(t.length===1){T={mode:Z.on()?'pan':'tap',x:t[0].clientX,y:t[0].clientY,ox:Z.x,oy:Z.y,moved:false,t:Date.now()};if(Z.on())e.preventDefault()}},{passive:false});
+track.addEventListener('touchmove',e=>{if(!T)return;const t=e.touches;
+ if(T.mode==='pinch'&&t.length===2){e.preventDefault();const s=Math.max(1,Math.min(MAX,T.s*dist(t[0],t[1])/T.d));const mx=(t[0].clientX+t[1].clientX)/2,my=(t[0].clientY+t[1].clientY)/2;
+   Z.s=T.s;Z.x=T.ox;Z.y=T.oy;zoomTo(s,T.mx,T.my,false);Z.x+=mx-T.mx;Z.y+=my-T.my;if(Z.on())clamp();apply(false)}
+ else if(T.mode==='pan'&&t.length===1){e.preventDefault();const dx=t[0].clientX-T.x,dy=t[0].clientY-T.y;if(Math.abs(dx)+Math.abs(dy)>6)T.moved=true;Z.x=T.ox+dx;Z.y=T.oy+dy;clamp();apply(false)}
+ else if(T.mode==='tap'){const dx=t[0].clientX-T.x,dy=t[0].clientY-T.y;if(Math.abs(dx)+Math.abs(dy)>8)T.moved=true}},{passive:false});
+track.addEventListener('touchend',e=>{lastTouch=Date.now();if(!T)return;if(e.touches.length)return;const d=T;T=null;
+ if(d.mode==='pinch'){if(Z.s<1.05)resetZoom(true);return}
+ if(!d.moved&&Date.now()-d.t<350){e.preventDefault();toggleZoom(d.x,d.y)}},{passive:false});
+window.addEventListener('resize',()=>resetZoom(false));
+renderChips();renderGrid();
+</script>
+</body>
+</html>
